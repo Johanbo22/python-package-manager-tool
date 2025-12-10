@@ -2,6 +2,7 @@ import subprocess
 import logging
 import sys
 import os
+import importlib.metadata
 from flask import Flask, jsonify, request
 from auth_middleware import require_authentication
 
@@ -19,23 +20,20 @@ logging.basicConfig(
 @require_authentication
 def get_installed_libraries():
     try:
-        process_result = subprocess.run(
-            [sys.executable, '-m', 'pip', 'list', '--format=json'],
-            capture_output=True,
-            text=True
-        )
+        dists = importlib.metadata.distributions()
 
-        if process_result.returncode != 0:
-            logging.error(f"Failed to list packages: {process_result.stderr}")
-            return jsonify({"error": "Failed to retrieve packages"}), 500
+        packages_list = []
+        for dist in dists:
+            name = dist.metadata.get("Name", "Unknown")
+            version = dist.version
+            packages_list.append({"name": name, "version": version})
         
-        import json
-        packages_list = json.loads(process_result.stdout)
-        logging.info(f"Retrieved {len(packages_list)} packages")
+        packages_list.sort(key=lambda x: x["name"].lower())
+        logging.info(f"Retrieved {len(packages_list)} packages from library")
         return jsonify(packages_list), 200
     
     except Exception as GeneralException:
-        logging.exception("An unexpected error occured while fetching libraries...")
+        logging.exception("An unexpected error occured while fetching libraries")
         return jsonify({"error": str(GeneralException)}), 500
 
 @application.route("/libraries", methods=["POST"])

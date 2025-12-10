@@ -4,37 +4,60 @@ import (
 	"fmt"
 
 	"github.com/Johanbo22/python-package-manager-tool/internal/client"
+	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 )
 
 type ApplicationState int
 
 const (
 	StateViewingList ApplicationState = iota
-	StateSearchingPyPI
+	StateSearchingPyPi
 )
 
+var (
+	docStyle = lipgloss.NewStyle().Margin(1, 2)
+)
+
+type item struct {
+	name    string
+	version string
+}
+
+func (i item) Title() string       { return i.name }
+func (i item) Description() string { return fmt.Sprintf("Version: %s", i.version) }
+func (i item) FilterValue() string { return i.name }
+
 type MainModel struct {
-	State             ApplicationState
-	PythonClient      *client.PythonBridgeClient
-	InstalledPackages []client.LocalPackage
-	SearchInput       textinput.Model
-	StatusMessage     string
-	CursorIndex       int
-	Err               error
+	State         ApplicationState
+	PythonClient  *client.PythonBridgeClient
+	List          list.Model
+	SearchInput   textinput.Model
+	StatusMessage string
+	Err           error
+	Width         int
+	Height        int
 }
 
 func InitialModel() MainModel {
 	ti := textinput.New()
 	ti.Placeholder = "Type package name to install"
 	ti.Focus()
+	ti.CharLimit = 156
+	ti.Width = 30
+
+	delegate := list.NewDefaultDelegate()
+	l := list.New([]list.Item{}, delegate, 0, 0)
+	l.Title = "Installed Packages"
+	l.SetShowHelp(true)
 
 	return MainModel{
 		State:        StateViewingList,
 		PythonClient: client.NewPythonBridgeClient(),
 		SearchInput:  ti,
-		CursorIndex:  0,
+		List:         l,
 	}
 }
 
@@ -44,79 +67,86 @@ func (m MainModel) Init() tea.Cmd {
 
 func (m MainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	var cmd tea.Cmd
+	var cmds []tea.Cmd
 
 	switch msg := msg.(type) {
+	case tea.WindowSizeMsg:
+		m.Width = msg.Width
+		m.Height = msg.Height
+		h, v := docStyle.GetFrameSize()
+		m.List.SetSize(msg.Width-h, msg.Height-v)
+
 	case tea.KeyMsg:
 		switch msg.String() {
-		case "ctrl+c", "q":
+		case "ctrl+c":
 			return m, tea.Quit
 		case "tab":
 			if m.State == StateViewingList {
-				m.State = StateSearchingPyPI
+				m.State = StateSearchingPyPi
+				m.StatusMessage = "Mode: Install New Package"
 			} else {
 				m.State = StateViewingList
+				m.StatusMessage = "Mode: Browse Packages"
 			}
-		case "up":
-			if m.CursorIndex > 0 {
-				m.CursorIndex--
+			return m, nil
+		}
+		if m.State == StateViewingList {
+			switch msg.String() {
+			case "d":
+				if selectedItem, ok := m.List.SelectedItem().(item); ok {
+					m.StatusMessage = "Uninstalling " + selectedItem.name + "..."
+					return m, deletePackageCmd(m.PythonClient, selectedItem.name)
+				}
 			}
-		case "down":
-			if m.CursorIndex < len(m.InstalledPackages)-1 {
-				m.CursorIndex++
-			}
-		case "d":
-			if m.State == StateViewingList && len(m.InstalledPackages) > 0 {
-				pkgToDelete := m.InstalledPackages[m.CursorIndex].Name
-				m.StatusMessage = "Uninstalling " + pkgToDelete + "..."
-				return m, deletePackageCmd(m.PythonClient, pkgToDelete)
-			}
-		case "enter":
-			if m.State == StateSearchingPyPI {
+		} else if m.State == StateSearchingPyPi {
+			switch msg.String() {
+			case "enter":
 				pkgToInstall := m.SearchInput.Value()
-				m.StatusMessage = "Installing " + pkgToInstall + "..."
-				return m, installPackageCmd(m.PythonClient, pkgToInstall)
+				if pkgToInstall != "" {
+					m.StatusMessage = "Installing " + pkgToInstall + "..."
+					m.SearchInput.SetValue("")
+					return m, installPackageCmd(m.PythonClient, pkgToInstall)
+				}
 			}
 		}
-
 	case packagesMsg:
-		m.InstalledPackages = msg.packages
+		items := make([]list.Item, len(msg.packages))
+		for i, pkg := range msg.packages {
+			items[i] = item{name: pkg.Name, version: pkg.Version}
+		}
+		cmd = m.List.SetItems(items)
+		cmds = append(cmds, cmd)
+		m.StatusMessage = fmt.Sprintf("Updated: %d packages found", len(msg.packages))
 
 	case statusMsg:
 		m.StatusMessage = msg.message
-		return m, fetchPackagesCmd(m.PythonClient)
+		cmds = append(cmds, fetchPackagesCmd(m.PythonClient))
 
 	case errMsg:
 		m.Err = msg.err
 		m.StatusMessage = "Error: " + msg.err.Error()
 	}
 
-	if m.State == StateSearchingPyPI {
+	if m.State == StateViewingList {
+		m.List, cmd = m.List.Update(msg)
+		cmds = append(cmds, cmd)
+	} else {
 		m.SearchInput, cmd = m.SearchInput.Update(msg)
+		cmds = append(cmds, cmd)
 	}
 
-	return m, cmd
+	return m, tea.Batch(cmds...)
 }
 
 func (m MainModel) View() string {
-	s := "Python Package Manager TUI\n\n"
-
 	if m.State == StateViewingList {
-		s += "Installed Packages (Press 'd' to delete, 'Tab' to install new packages):\n"
-		for i, pkg := range m.InstalledPackages {
-			cursor := " "
-			if m.CursorIndex == i {
-				cursor = ">"
-			}
-			s += fmt.Sprintf("%s %s (%s)\n", cursor, pkg.Name, pkg.Version)
-		}
-	} else {
-		s += "Install new package (Press 'Enter' to install, 'Tab' to go back):\n"
-		s += m.SearchInput.View() + "\n"
+		return docStyle.Render(m.List.View())
 	}
-
-	s += "\nStatus: " + m.StatusMessage + "\n"
-	s += "\n[q] Quit | [Tab] Switch Mode"
-	return s
+	return docStyle.Render(fmt.Sprintf(
+		"Install New Package\n\n%s\n\n%s\n\n[Tab] Back to List | [Enter] Install | [Ctrl+C] Quit",
+		m.SearchInput.View(),
+		m.StatusMessage,
+	))
 }
 
 type packagesMsg struct {
@@ -145,7 +175,7 @@ func installPackageCmd(c *client.PythonBridgeClient, name string) tea.Cmd {
 	return func() tea.Msg {
 		_, err := client.FetchPackageFromPyPI(name)
 		if err != nil {
-			return errMsg{fmt.Errorf("packages not found on PyPI")}
+			return errMsg{fmt.Errorf("package '%s' not found on PyPI", name)}
 		}
 
 		msg, err := c.InstallPackages(name)

@@ -6,3 +6,21 @@
 2025-12-09 17:17:29,419 - root - INFO - Installing package: webcolors
 2025-12-09 17:17:31,634 - root - ERROR - Installation failed for webcolors: 
 2025-12-09 17:17:31,634 - werkzeug - INFO - 127.0.0.1 - - [09/Dec/2025 17:17:31] "[31m[1mPOST /libraries HTTP/1.1[0m" 400 -
+2025-12-10 14:06:18,026 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-12-10 14:06:18,027 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-10 14:06:20,159 - root - INFO - Retrieved 262 packages
+2025-12-10 14:06:20,159 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:06:20] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:35:59,983 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-12-10 14:35:59,983 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-10 14:39:19,436 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-12-10 14:39:19,436 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-10 14:39:22,483 - root - INFO - Retrieved 262 packages from library
+2025-12-10 14:39:22,484 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:39:22] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:40:37,524 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-12-10 14:40:37,527 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-10 14:40:39,446 - root - INFO - Retrieved 262 packages from library
+2025-12-10 14:40:39,447 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:40:39] "GET /libraries HTTP/1.1" 200 -

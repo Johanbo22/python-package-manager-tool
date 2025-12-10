@@ -24,3 +24,240 @@
 2025-12-10 14:40:37,527 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
 2025-12-10 14:40:39,446 - root - INFO - Retrieved 262 packages from library
 2025-12-10 14:40:39,447 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:40:39] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:27,025 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-12-10 14:43:27,025 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-10 14:43:27,739 - root - INFO - Retrieved 262 packages from library
+2025-12-10 14:43:27,740 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:27] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:35,873 - root - INFO - Attempting to uninstall package: affine
+2025-12-10 14:43:36,154 - root - INFO - Attempting to uninstall package: appdirs
+2025-12-10 14:43:36,890 - root - INFO - Attempting to uninstall package: av
+2025-12-10 14:43:37,170 - root - INFO - Attempting to uninstall package: brotli
+2025-12-10 14:43:37,410 - root - INFO - Attempting to uninstall package: cipher
+2025-12-10 14:43:37,588 - root - INFO - Successfully uninstalled affine
+2025-12-10 14:43:37,588 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:37] "DELETE /libraries/affine HTTP/1.1" 200 -
+2025-12-10 14:43:37,763 - root - INFO - Attempting to uninstall package: contextily
+2025-12-10 14:43:38,003 - root - INFO - Attempting to uninstall package: dateutils
+2025-12-10 14:43:38,027 - root - INFO - Retrieved 261 packages from library
+2025-12-10 14:43:38,028 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:38] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:38,235 - root - INFO - Attempting to uninstall package: docutils
+2025-12-10 14:43:38,657 - root - INFO - Attempting to uninstall package: fiona
+2025-12-10 14:43:38,977 - root - INFO - Attempting to uninstall package: geodatasets
+2025-12-10 14:43:39,757 - root - INFO - Successfully uninstalled av
+2025-12-10 14:43:39,757 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:39] "DELETE /libraries/av HTTP/1.1" 200 -
+2025-12-10 14:43:40,100 - root - INFO - Attempting to uninstall package: Flask-SQLAlchemy
+2025-12-10 14:43:40,322 - root - INFO - Attempting to uninstall package: Flask-SQLAlchemy
+2025-12-10 14:43:40,376 - root - INFO - Retrieved 260 packages from library
+2025-12-10 14:43:40,377 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:40] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:40,725 - root - INFO - Attempting to uninstall package: folium
+2025-12-10 14:43:40,960 - root - INFO - Attempting to uninstall package: google-auth
+2025-12-10 14:43:43,064 - root - INFO - Successfully uninstalled contextily
+2025-12-10 14:43:43,064 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:43] "DELETE /libraries/contextily HTTP/1.1" 200 -
+2025-12-10 14:43:43,112 - root - INFO - Successfully uninstalled dateutils
+2025-12-10 14:43:43,112 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:43] "DELETE /libraries/dateutils HTTP/1.1" 200 -
+2025-12-10 14:43:43,120 - root - INFO - Successfully uninstalled geodatasets
+2025-12-10 14:43:43,121 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:43] "DELETE /libraries/geodatasets HTTP/1.1" 200 -
+2025-12-10 14:43:43,206 - root - INFO - Successfully uninstalled cipher
+2025-12-10 14:43:43,206 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:43] "DELETE /libraries/cipher HTTP/1.1" 200 -
+2025-12-10 14:43:43,457 - root - INFO - Successfully uninstalled fiona
+2025-12-10 14:43:43,458 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:43] "DELETE /libraries/fiona HTTP/1.1" 200 -
+2025-12-10 14:43:43,592 - root - INFO - Attempting to uninstall package: mypy_extensions
+2025-12-10 14:43:43,745 - root - INFO - Successfully uninstalled docutils
+2025-12-10 14:43:43,745 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:43] "DELETE /libraries/docutils HTTP/1.1" 200 -
+2025-12-10 14:43:45,490 - root - INFO - Successfully uninstalled Flask-SQLAlchemy
+2025-12-10 14:43:45,490 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:45] "DELETE /libraries/Flask-SQLAlchemy HTTP/1.1" 200 -
+2025-12-10 14:43:45,879 - root - INFO - Successfully uninstalled Flask-SQLAlchemy
+2025-12-10 14:43:45,880 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:45] "DELETE /libraries/Flask-SQLAlchemy HTTP/1.1" 200 -
+2025-12-10 14:43:46,002 - root - INFO - Successfully uninstalled folium
+2025-12-10 14:43:46,003 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:46] "DELETE /libraries/folium HTTP/1.1" 200 -
+2025-12-10 14:43:46,053 - root - INFO - Retrieved 254 packages from library
+2025-12-10 14:43:46,059 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:46] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:46,096 - root - INFO - Successfully uninstalled google-auth
+2025-12-10 14:43:46,097 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:46] "DELETE /libraries/google-auth HTTP/1.1" 200 -
+2025-12-10 14:43:46,216 - root - INFO - Retrieved 254 packages from library
+2025-12-10 14:43:46,217 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:46] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:46,251 - root - INFO - Retrieved 254 packages from library
+2025-12-10 14:43:46,252 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:46] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:46,344 - root - INFO - Retrieved 254 packages from library
+2025-12-10 14:43:46,344 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:46] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:46,557 - root - INFO - Retrieved 254 packages from library
+2025-12-10 14:43:46,558 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:46] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:46,773 - root - INFO - Retrieved 254 packages from library
+2025-12-10 14:43:46,774 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:46] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:47,375 - root - INFO - Retrieved 252 packages from library
+2025-12-10 14:43:47,375 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:47] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:47,529 - root - INFO - Retrieved 251 packages from library
+2025-12-10 14:43:47,530 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:47] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:47,554 - root - INFO - Retrieved 251 packages from library
+2025-12-10 14:43:47,555 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:47] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:47,559 - root - INFO - Retrieved 251 packages from library
+2025-12-10 14:43:47,560 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:47] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:49,119 - root - INFO - Successfully uninstalled appdirs
+2025-12-10 14:43:49,120 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:49] "DELETE /libraries/appdirs HTTP/1.1" 200 -
+2025-12-10 14:43:49,147 - root - INFO - Successfully uninstalled brotli
+2025-12-10 14:43:49,147 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:49] "DELETE /libraries/brotli HTTP/1.1" 200 -
+2025-12-10 14:43:49,495 - root - INFO - Attempting to uninstall package: aiofiles
+2025-12-10 14:43:49,716 - root - INFO - Retrieved 249 packages from library
+2025-12-10 14:43:49,716 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:49] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:49,748 - root - INFO - Attempting to uninstall package: asttokens
+2025-12-10 14:43:49,770 - root - INFO - Retrieved 249 packages from library
+2025-12-10 14:43:49,770 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:49] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:50,647 - root - INFO - Successfully uninstalled mypy_extensions
+2025-12-10 14:43:50,648 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:50] "DELETE /libraries/mypy_extensions HTTP/1.1" 200 -
+2025-12-10 14:43:50,711 - root - INFO - Attempting to uninstall package: cycler
+2025-12-10 14:43:50,998 - root - INFO - Retrieved 248 packages from library
+2025-12-10 14:43:50,998 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:50] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:51,072 - root - INFO - Successfully uninstalled aiofiles
+2025-12-10 14:43:51,072 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:51] "DELETE /libraries/aiofiles HTTP/1.1" 200 -
+2025-12-10 14:43:51,291 - root - INFO - Successfully uninstalled asttokens
+2025-12-10 14:43:51,292 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:51] "DELETE /libraries/asttokens HTTP/1.1" 200 -
+2025-12-10 14:43:51,422 - root - INFO - Attempting to uninstall package: free_proxy
+2025-12-10 14:43:51,507 - root - INFO - Retrieved 247 packages from library
+2025-12-10 14:43:51,508 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:51] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:51,749 - root - INFO - Retrieved 246 packages from library
+2025-12-10 14:43:51,749 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:51] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:52,194 - root - INFO - Successfully uninstalled cycler
+2025-12-10 14:43:52,194 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:52] "DELETE /libraries/cycler HTTP/1.1" 200 -
+2025-12-10 14:43:52,520 - root - INFO - Retrieved 245 packages from library
+2025-12-10 14:43:52,521 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:52] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:43:52,840 - root - INFO - Successfully uninstalled free_proxy
+2025-12-10 14:43:52,840 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:52] "DELETE /libraries/free_proxy HTTP/1.1" 200 -
+2025-12-10 14:43:53,152 - root - INFO - Retrieved 244 packages from library
+2025-12-10 14:43:53,152 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:43:53] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:44:02,957 - root - INFO - Attempting to uninstall package: aggdraw
+2025-12-10 14:44:03,141 - root - INFO - Attempting to uninstall package: aggdraw
+2025-12-10 14:44:03,308 - root - INFO - Attempting to uninstall package: aggdraw
+2025-12-10 14:44:03,525 - root - INFO - Attempting to uninstall package: aggdraw
+2025-12-10 14:44:06,555 - root - INFO - Successfully uninstalled aggdraw
+2025-12-10 14:44:06,556 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:44:06] "DELETE /libraries/aggdraw HTTP/1.1" 200 -
+2025-12-10 14:44:06,803 - root - ERROR - Uninstallation failed for aggdraw: ERROR: Exception:
+Traceback (most recent call last):
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 847, in move
+    os.rename(src, real_dst)
+FileNotFoundError: [WinError 2] The system cannot find the file specified: 'c:\\users\\joha4\\appdata\\local\\programs\\python\\python312\\lib\\site-packages\\aggdraw-1.3.19.dist-info\\' -> 'C:\\Users\\joha4\\AppData\\Local\\Temp\\pip-uninstall-bd04msik\\aggdraw-1.3.19.dist-info'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\cli\base_command.py", line 107, in _run_wrapper
+    status = _inner_run()
+             ^^^^^^^^^^^^
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\cli\base_command.py", line 98, in _inner_run
+    return self.run(options, args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\commands\uninstall.py", line 105, in run
+    uninstall_pathset = req.uninstall(
+                        ^^^^^^^^^^^^^^
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\req\req_install.py", line 675, in uninstall
+    uninstalled_pathset.remove(auto_confirm, verbose)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\req\req_uninstall.py", line 373, in remove
+    moved.stash(path)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\req\req_uninstall.py", line 264, in stash
+    renames(path, new_path)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\utils\misc.py", line 342, in renames
+    shutil.move(old, new)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 867, in move
+    copy_function(src, real_dst)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 460, in copy2
+    _winapi.CopyFile2(src_, dst_, flags)
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+2025-12-10 14:44:06,804 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:44:06] "[31m[1mDELETE /libraries/aggdraw HTTP/1.1[0m" 400 -
+2025-12-10 14:44:06,904 - root - INFO - Retrieved 243 packages from library
+2025-12-10 14:44:06,904 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:44:06] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:44:06,934 - root - ERROR - Uninstallation failed for aggdraw: ERROR: Exception:
+Traceback (most recent call last):
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 847, in move
+    os.rename(src, real_dst)
+FileNotFoundError: [WinError 2] The system cannot find the file specified: 'c:\\users\\joha4\\appdata\\local\\programs\\python\\python312\\lib\\site-packages\\aggdraw-1.3.19.dist-info\\' -> 'C:\\Users\\joha4\\AppData\\Local\\Temp\\pip-uninstall-o4540xhv\\aggdraw-1.3.19.dist-info'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\cli\base_command.py", line 107, in _run_wrapper
+    status = _inner_run()
+             ^^^^^^^^^^^^
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\cli\base_command.py", line 98, in _inner_run
+    return self.run(options, args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\commands\uninstall.py", line 105, in run
+    uninstall_pathset = req.uninstall(
+                        ^^^^^^^^^^^^^^
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\req\req_install.py", line 675, in uninstall
+    uninstalled_pathset.remove(auto_confirm, verbose)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\req\req_uninstall.py", line 373, in remove
+    moved.stash(path)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\req\req_uninstall.py", line 264, in stash
+    renames(path, new_path)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\utils\misc.py", line 342, in renames
+    shutil.move(old, new)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 867, in move
+    copy_function(src, real_dst)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 460, in copy2
+    _winapi.CopyFile2(src_, dst_, flags)
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+2025-12-10 14:44:06,934 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:44:06] "[31m[1mDELETE /libraries/aggdraw HTTP/1.1[0m" 400 -
+2025-12-10 14:44:07,105 - root - ERROR - Uninstallation failed for aggdraw: ERROR: Exception:
+Traceback (most recent call last):
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 847, in move
+    os.rename(src, real_dst)
+FileNotFoundError: [WinError 2] The system cannot find the file specified: 'c:\\users\\joha4\\appdata\\local\\programs\\python\\python312\\lib\\site-packages\\aggdraw-1.3.19.dist-info\\' -> 'C:\\Users\\joha4\\AppData\\Local\\Temp\\pip-uninstall-8gtkv7_t\\aggdraw-1.3.19.dist-info'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\cli\base_command.py", line 107, in _run_wrapper
+    status = _inner_run()
+             ^^^^^^^^^^^^
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\cli\base_command.py", line 98, in _inner_run
+    return self.run(options, args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\commands\uninstall.py", line 105, in run
+    uninstall_pathset = req.uninstall(
+                        ^^^^^^^^^^^^^^
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\req\req_install.py", line 675, in uninstall
+    uninstalled_pathset.remove(auto_confirm, verbose)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\req\req_uninstall.py", line 373, in remove
+    moved.stash(path)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\req\req_uninstall.py", line 264, in stash
+    renames(path, new_path)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\site-packages\pip\_internal\utils\misc.py", line 342, in renames
+    shutil.move(old, new)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 867, in move
+    copy_function(src, real_dst)
+  File "C:\Users\joha4\AppData\Local\Programs\Python\Python312\Lib\shutil.py", line 460, in copy2
+    _winapi.CopyFile2(src_, dst_, flags)
+FileNotFoundError: [WinError 2] The system cannot find the file specified
+
+2025-12-10 14:44:07,106 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:44:07] "[31m[1mDELETE /libraries/aggdraw HTTP/1.1[0m" 400 -
+2025-12-10 14:44:19,454 - root - INFO - Attempting to uninstall package: xlrd
+2025-12-10 14:44:20,815 - root - INFO - Successfully uninstalled xlrd
+2025-12-10 14:44:20,816 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:44:20] "DELETE /libraries/xlrd HTTP/1.1" 200 -
+2025-12-10 14:44:21,160 - root - INFO - Retrieved 242 packages from library
+2025-12-10 14:44:21,160 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:44:21] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:44:38,552 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-12-10 14:44:38,553 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-10 14:44:39,191 - root - INFO - Retrieved 242 packages from library
+2025-12-10 14:44:39,192 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:44:39] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 14:46:22,862 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-12-10 14:46:22,863 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-10 14:46:23,520 - root - INFO - Retrieved 242 packages from library
+2025-12-10 14:46:23,521 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 14:46:23] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 15:22:24,718 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-12-10 15:22:24,719 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-10 15:22:27,300 - root - INFO - Retrieved 242 packages from library
+2025-12-10 15:22:27,301 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 15:22:27] "GET /libraries HTTP/1.1" 200 -
+2025-12-10 15:22:40,255 - root - INFO - Installing package: xlrd
+2025-12-10 15:22:44,968 - root - ERROR - Installation failed for xlrd: 
+2025-12-10 15:22:44,969 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 15:22:44] "[31m[1mPOST /libraries HTTP/1.1[0m" 400 -
+2025-12-10 15:23:25,282 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 15:23:25] "[33mGET / HTTP/1.1[0m" 404 -
+2025-12-10 15:23:25,537 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 15:23:25] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-12-10 15:24:56,583 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-12-10 15:24:56,584 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-10 15:24:59,106 - root - INFO - Retrieved 243 packages from library
+2025-12-10 15:24:59,107 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 15:24:59] "GET /libraries HTTP/1.1" 200 -

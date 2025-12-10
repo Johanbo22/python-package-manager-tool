@@ -5,9 +5,24 @@ import (
 
 	"github.com/Johanbo22/python-package-manager-tool/internal/client"
 	"github.com/charmbracelet/bubbles/list"
+	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+)
+
+var (
+	docStyle = lipgloss.NewStyle().Margin(1, 2)
+
+	headerStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#FAFAFA")).Background(lipgloss.Color("#7D67F4")).Padding(0, 1).Bold(true)
+
+	modeStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#FAFAFA")).Background(lipgloss.Color("#6146AB")).Padding(0, 1)
+
+	spinnerStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("205"))
+	statusStyle  = lipgloss.NewStyle().Foreground(lipgloss.Color("#A0A0A0")).MarginTop(1)
+	errorStyle   = lipgloss.NewStyle().Foreground(lipgloss.Color("#FF0000")).MarginTop(1)
+
+	helpStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("#626262")).MarginTop(1)
 )
 
 type ApplicationState int
@@ -15,10 +30,6 @@ type ApplicationState int
 const (
 	StateViewingList ApplicationState = iota
 	StateSearchingPyPi
-)
-
-var (
-	docStyle = lipgloss.NewStyle().Margin(1, 2)
 )
 
 type item struct {
@@ -35,6 +46,8 @@ type MainModel struct {
 	PythonClient  *client.PythonBridgeClient
 	List          list.Model
 	SearchInput   textinput.Model
+	Spinner       spinner.Model
+	IsLoading     bool
 	StatusMessage string
 	Err           error
 	Width         int
@@ -51,13 +64,20 @@ func InitialModel() MainModel {
 	delegate := list.NewDefaultDelegate()
 	l := list.New([]list.Item{}, delegate, 0, 0)
 	l.Title = "Installed Packages"
-	l.SetShowHelp(true)
+	l.SetShowHelp(false)
+	l.DisableQuitKeybindings()
+
+	s := spinner.New()
+	s.Spinner = spinner.Dot
+	s.Style = spinnerStyle
 
 	return MainModel{
 		State:        StateViewingList,
 		PythonClient: client.NewPythonBridgeClient(),
 		SearchInput:  ti,
 		List:         l,
+		Spinner:      s,
+		IsLoading:    false,
 	}
 }
 
@@ -74,19 +94,26 @@ func (m MainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		m.Width = msg.Width
 		m.Height = msg.Height
 		h, v := docStyle.GetFrameSize()
-		m.List.SetSize(msg.Width-h, msg.Height-v)
+		m.List.SetSize(msg.Width-h, msg.Height-v-4)
 
 	case tea.KeyMsg:
+		if m.IsLoading && msg.String() != "ctrl+c" {
+			return m, nil
+		}
 		switch msg.String() {
 		case "ctrl+c":
+			return m, tea.Quit
+		case "q":
 			return m, tea.Quit
 		case "tab":
 			if m.State == StateViewingList {
 				m.State = StateSearchingPyPi
-				m.StatusMessage = "Mode: Install New Package"
+				m.StatusMessage = ""
+				m.Err = nil
 			} else {
 				m.State = StateViewingList
-				m.StatusMessage = "Mode: Browse Packages"
+				m.StatusMessage = ""
+				m.Err = nil
 			}
 			return m, nil
 		}
@@ -94,8 +121,9 @@ func (m MainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			switch msg.String() {
 			case "d":
 				if selectedItem, ok := m.List.SelectedItem().(item); ok {
-					m.StatusMessage = "Uninstalling " + selectedItem.name + "..."
-					return m, deletePackageCmd(m.PythonClient, selectedItem.name)
+					m.StatusMessage = fmt.Sprintf("Uninstalling %s...", selectedItem.name)
+					cmds = append(cmds, deletePackageCmd(m.PythonClient, selectedItem.name), m.Spinner.Tick)
+					return m, tea.Batch(cmds...)
 				}
 			}
 		} else if m.State == StateSearchingPyPi {
@@ -103,11 +131,18 @@ func (m MainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			case "enter":
 				pkgToInstall := m.SearchInput.Value()
 				if pkgToInstall != "" {
-					m.StatusMessage = "Installing " + pkgToInstall + "..."
+					m.StatusMessage = fmt.Sprintf("Installing %s...", pkgToInstall)
 					m.SearchInput.SetValue("")
-					return m, installPackageCmd(m.PythonClient, pkgToInstall)
+					cmds = append(cmds, installPackageCmd(m.PythonClient, pkgToInstall), m.Spinner.Tick)
+					return m, tea.Batch(cmds...)
 				}
 			}
+		}
+	case spinner.TickMsg:
+		if m.IsLoading {
+			var spinCmd tea.Cmd
+			m.Spinner, spinCmd = m.Spinner.Update(msg)
+			return m, spinCmd
 		}
 	case packagesMsg:
 		items := make([]list.Item, len(msg.packages))
@@ -116,15 +151,21 @@ func (m MainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		cmd = m.List.SetItems(items)
 		cmds = append(cmds, cmd)
-		m.StatusMessage = fmt.Sprintf("Updated: %d packages found", len(msg.packages))
+		m.IsLoading = false
+		if m.StatusMessage == "" {
+			m.StatusMessage = fmt.Sprintf("Loaded %d packages", len(msg.packages))
+		}
 
 	case statusMsg:
 		m.StatusMessage = msg.message
+		m.IsLoading = false
+		m.Err = nil
 		cmds = append(cmds, fetchPackagesCmd(m.PythonClient))
 
 	case errMsg:
 		m.Err = msg.err
-		m.StatusMessage = "Error: " + msg.err.Error()
+		m.IsLoading = false
+		m.StatusMessage = ""
 	}
 
 	if m.State == StateViewingList {
@@ -139,14 +180,41 @@ func (m MainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m MainModel) View() string {
+	var mode string
 	if m.State == StateViewingList {
-		return docStyle.Render(m.List.View())
+		mode = modeStyle.Render("MODE: Browse")
+	} else {
+		mode = modeStyle.Render("MODE: Install")
 	}
-	return docStyle.Render(fmt.Sprintf(
-		"Install New Package\n\n%s\n\n%s\n\n[Tab] Back to List | [Enter] Install | [Ctrl+C] Quit",
-		m.SearchInput.View(),
-		m.StatusMessage,
-	))
+	header := headerStyle.Render(" Python Package Manager Tool") + mode
+
+	var content string
+	if m.State == StateViewingList {
+		content = m.List.View()
+	} else {
+		content = fmt.Sprintf(
+			"\n Type the name of PyPI package to install:\n\n %s\n\n",
+			m.SearchInput.View(),
+		)
+	}
+
+	var status string
+	if m.IsLoading {
+		status = fmt.Sprintf("%s %s", m.Spinner.View(), statusStyle.Render(m.StatusMessage))
+	} else if m.Err != nil {
+		status = errorStyle.Render(fmt.Sprintf("Error: %v", m.Err))
+	} else {
+		status = statusStyle.Render(m.StatusMessage)
+	}
+
+	var help string
+	if m.State == StateViewingList {
+		help = helpStyle.Render("• [d] uninstall pacakge • [tab] switch to installer • [q] quit")
+	} else {
+		help = helpStyle.Render("• [enter] install package • [tab] swtich to browser • [q] quit")
+	}
+
+	return docStyle.Render(fmt.Sprintf("%s\n\n%s\n%s\n%s", header, content, status, help))
 }
 
 type packagesMsg struct {

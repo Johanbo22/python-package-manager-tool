@@ -30,6 +30,8 @@ type ApplicationState int
 const (
 	StateViewingList ApplicationState = iota
 	StateSearchingPyPi
+	StateConfirmingInstall
+	StateConfirmingDelete
 )
 
 type item struct {
@@ -42,16 +44,17 @@ func (i item) Description() string { return fmt.Sprintf("Version: %s", i.version
 func (i item) FilterValue() string { return i.name }
 
 type MainModel struct {
-	State         ApplicationState
-	PythonClient  *client.PythonBridgeClient
-	List          list.Model
-	SearchInput   textinput.Model
-	Spinner       spinner.Model
-	IsLoading     bool
-	StatusMessage string
-	Err           error
-	Width         int
-	Height        int
+	State              ApplicationState
+	PythonClient       *client.PythonBridgeClient
+	List               list.Model
+	SearchInput        textinput.Model
+	Spinner            spinner.Model
+	IsLoading          bool
+	StatusMessage      string
+	Err                error
+	PendingPackageName string
+	Width              int
+	Height             int
 }
 
 func InitialModel() MainModel {
@@ -101,29 +104,49 @@ func (m MainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, nil
 		}
 		switch msg.String() {
-		case "ctrl+c":
+		case "ctrl+c", "q":
 			return m, tea.Quit
-		case "q":
-			return m, tea.Quit
+		case "y", "Y":
+			if m.State == StateConfirmingDelete {
+				m.StatusMessage = "Uninstalling " + m.PendingPackageName + "..."
+				m.State = StateViewingList
+				cmds = append(cmds, deletePackageCmd(m.PythonClient, m.PendingPackageName), m.Spinner.Tick)
+				return m, tea.Batch(cmds...)
+			}
+			if m.State == StateConfirmingInstall {
+				m.StatusMessage = "Installing " + m.PendingPackageName + "..."
+				m.State = StateSearchingPyPi
+				cmds = append(cmds, installPackageCmd(m.PythonClient, m.PendingPackageName), m.Spinner.Tick)
+				return m, tea.Batch(cmds...)
+			}
+		case "n", "N":
+			if m.State == StateConfirmingDelete {
+				m.State = StateViewingList
+				m.StatusMessage = "Uninstallation cancelled"
+				m.PendingPackageName = ""
+				return m, nil
+			}
+			if m.State == StateConfirmingInstall {
+				m.State = StateSearchingPyPi
+				m.StatusMessage = "Installation cancelled"
+				m.PendingPackageName = ""
+				return m, nil
+			}
 		case "tab":
 			if m.State == StateViewingList {
 				m.State = StateSearchingPyPi
-				m.StatusMessage = ""
-				m.Err = nil
-			} else {
+			} else if m.State == StateSearchingPyPi {
 				m.State = StateViewingList
-				m.StatusMessage = ""
-				m.Err = nil
 			}
-			return m, nil
 		}
 		if m.State == StateViewingList {
 			switch msg.String() {
 			case "d":
 				if selectedItem, ok := m.List.SelectedItem().(item); ok {
-					m.StatusMessage = fmt.Sprintf("Uninstalling %s...", selectedItem.name)
-					cmds = append(cmds, deletePackageCmd(m.PythonClient, selectedItem.name), m.Spinner.Tick)
-					return m, tea.Batch(cmds...)
+					m.PendingPackageName = selectedItem.name
+					m.StatusMessage = fmt.Sprintf("Delete %s? [Y/n]", selectedItem.name)
+					m.State = StateConfirmingDelete
+					return m, nil
 				}
 			}
 		} else if m.State == StateSearchingPyPi {
@@ -131,10 +154,11 @@ func (m MainModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			case "enter":
 				pkgToInstall := m.SearchInput.Value()
 				if pkgToInstall != "" {
-					m.StatusMessage = fmt.Sprintf("Installing %s...", pkgToInstall)
+					m.PendingPackageName = pkgToInstall
+					m.StatusMessage = fmt.Sprintf("Install %s? [Y/n]", pkgToInstall)
+					m.State = StateConfirmingInstall
 					m.SearchInput.SetValue("")
-					cmds = append(cmds, installPackageCmd(m.PythonClient, pkgToInstall), m.Spinner.Tick)
-					return m, tea.Batch(cmds...)
+					return m, nil
 				}
 			}
 		}
@@ -189,11 +213,11 @@ func (m MainModel) View() string {
 	header := headerStyle.Render(" Python Package Manager Tool") + mode
 
 	var content string
-	if m.State == StateViewingList {
+	if m.State == StateViewingList || m.State == StateConfirmingDelete {
 		content = m.List.View()
 	} else {
 		content = fmt.Sprintf(
-			"\n Type the name of PyPI package to install:\n\n %s\n\n",
+			"\n Type the name of a PyPI package to install:\n\n %s\n\n",
 			m.SearchInput.View(),
 		)
 	}
@@ -210,8 +234,10 @@ func (m MainModel) View() string {
 	var help string
 	if m.State == StateViewingList {
 		help = helpStyle.Render("• [d] uninstall pacakge • [tab] switch to installer • [q] quit")
-	} else {
+	} else if m.State == StateSearchingPyPi {
 		help = helpStyle.Render("• [enter] install package • [tab] swtich to browser • [q] quit")
+	} else {
+		help = helpStyle.Render("• [y] confirm • [n] cancel")
 	}
 
 	return docStyle.Render(fmt.Sprintf("%s\n\n%s\n%s\n%s", header, content, status, help))

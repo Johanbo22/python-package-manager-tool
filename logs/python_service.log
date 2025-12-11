@@ -261,3 +261,11 @@ FileNotFoundError: [WinError 2] The system cannot find the file specified
 2025-12-10 15:24:56,584 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
 2025-12-10 15:24:59,106 - root - INFO - Retrieved 243 packages from library
 2025-12-10 15:24:59,107 - werkzeug - INFO - 127.0.0.1 - - [10/Dec/2025 15:24:59] "GET /libraries HTTP/1.1" 200 -
+2025-12-11 18:02:02,880 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2025-12-11 18:02:02,880 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-12-11 18:02:05,976 - root - INFO - Retrieved 244 packages from library
+2025-12-11 18:02:05,978 - werkzeug - INFO - 127.0.0.1 - - [11/Dec/2025 18:02:05] "GET /libraries HTTP/1.1" 200 -
+2025-12-11 18:02:32,874 - root - INFO - Installing package: xlrd
+2025-12-11 18:02:35,138 - root - ERROR - Installation failed for xlrd: 
+2025-12-11 18:02:35,139 - werkzeug - INFO - 127.0.0.1 - - [11/Dec/2025 18:02:35] "[31m[1mPOST /libraries HTTP/1.1[0m" 400 -
